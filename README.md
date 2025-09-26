@@ -16,4 +16,25 @@ En este primer avance, se  implementa un sistema básico que permita almacenar y
 
 La funcionalidad principal es la organización de los datos mediante algoritmos de ordenamiento, específicamente Merge Sort, que garantiza eficiencia con una complejidad de O(n log n). El usuario podrá visualizar la lista de autos ordenada de diferentes formas, como por marca-modelo (alfabético) o por año (ascendente), lo que facilita la consulta. 
 
-Este primer avance sienta las bases del proyecto, asegurando que la información de los autos se gestione de forma estructurada y que los algoritmos seleccionados estén justificados en términos de rendimiento y aplicabilidad.
+El programa actualmente  permite:
+- Mostrar en pantalla el inventario de vehículos.
+- Ordenar los datos de los carros por **marca (A-Z)** o por **año (ascendente)** utilizando el algoritmo Merge Sort.
+- Seleccionar un carro por número y confirmar o modificar el año registrado.
+- Agregar manualmente un carro nuevo al inventario desde la consola.
+- Buscar autos por marca mediante una búsqueda lineal.
+
+## Cómo usar el programa 
+
+Es necesario primero guardar el archivo "inventario.txt" en la misma carpeta que los demás archivos 
+De igual manera si se realizan cambios al documento "inventario.txt" es importante resaltar que los valores deben estar seaprados por comas de la siguiente manera:      marca,modelo,tipo,año,motor
+
+
+##Cumplimiento de sub-competencias
+
+En este primer avance, implementamos el algoritmo Merge Sort para ordenar los carros. Por tanto tenemos una Complejidad temporal en el mejor caso de O(n log n). en el caso  promedio de  O(n log n) y en el peor  caso O(n log n)
+
+De igual manera, es importante mencionar que para  ordenar el inventario se eligió Merge Sort en lugar de algoritmos como Bubble Sort, Insertion Sort o Quick Sort porque:
+
+Tiene mejor rendimiento en listas grandes, garantizando siempre O(n log n).
+
+Es un algoritmo estable, lo que significa que mantiene el orden relativo de los elementos iguales (importante si varios autos tienen el mismo año o la misma marca).
