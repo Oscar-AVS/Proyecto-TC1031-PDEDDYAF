@@ -1,0 +1,107 @@
+marca,modelo,tipo,anio,motor
+Nissan,Versa,Sedan,2020,1.6L
+Chevrolet,Aveo,Sedan,2018,1.5L
+Kia,K3 Sedan,Sedan,2021,1.6L
+Volkswagen,Virtus,Sedan,2022,1.6L
+Nissan,March,Hatchback,2019,1.6L
+MG,5,Sedan,2023,1.5L Turbo
+Nissan,Sentra,Sedan,2020,2.0L
+Volkswagen,Jetta,Sedan,2019,1.4L Turbo
+Mazda,3 Sedan,Sedan,2021,2.5L
+Chevrolet,Onix,Sedan,2022,1.0L Turbo
+Renault,Kwid,Hatchback,2020,1.0L
+Mazda,2 Sedan,Sedan,2018,1.5L
+SEAT,Ibiza,Hatchback,2021,1.6L
+Suzuki,Swift,Hatchback,2019,1.2L
+Toyota,Yaris Sedan,Sedan,2022,1.5L
+Toyota,Corolla,Sedan,2020,1.8L
+MG,3,Hatchback,2023,1.5L
+Hyundai,Grand i10 Hatchback,Hatchback,2018,1.2L
+Kia,K3 Hatchback,Hatchback,2022,2.0L
+Hyundai,Grand i10 Sedan,Sedan,2020,1.2L
+Kia,Forte,Sedan,2021,2.0L
+Suzuki,Ignis,Hatchback,2019,1.2L
+Honda,City,Sedan,2020,1.5L
+Volkswagen,Polo,Hatchback,2022,1.6L
+Mazda,3 Hatchback,Hatchback,2021,2.5L
+Dodge,Attitude,Sedan,2019,1.2L
+Mazda,2 Hatchback,Hatchback,2023,1.5L
+Toyota,Prius,Sedan,2020,1.8L Hybrid
+Kia,K4 Sedan,Sedan,2023,2.0L
+Hyundai,HB20 Sedan,Sedan,2021,1.0L Turbo
+Mitsubishi,Mirage G4,Sedan,2018,1.2L
+Toyota,Camry,Sedan,2022,2.5L
+SEAT,Leon,Hatchback,2021,1.4L Turbo
+Suzuki,Baleno,Hatchback,2020,1.5L
+Honda,Civic,Sedan,2022,2.0L
+MG,GT,Sedan,2023,1.5L Turbo
+Chevrolet,Cavalier,Sedan,2019,1.5L
+Toyota,Yaris Hatchback,Hatchback,2021,1.5L
+FIAT,Argo,Hatchback,2020,1.3L
+Omoda,O5,Sedan,2023,1.5L Turbo
+Changan,Alsvin,Sedan,2020,1.5L
+Volkswagen,Golf GTI,Hatchback,2022,2.0L Turbo
+Mazda,MX-5,Convertible,2019,2.0L
+Hyundai,HB20 Hatchback,Hatchback,2021,1.0L Turbo
+JAC,E 10X,Hatchback,2023,EV
+Honda,Accord,Sedan,2020,2.0L Hybrid
+MG,3 HEV,Hatchback,2023,Hybrid
+Ford,Mustang,Coupe,2019,5.0L
+Renault,Stepway,Crossover,2021,1.6L
+JAC,J7,Liftback,2022,1.5L Turbo
+Ora,03,Hatchback,2023,EV
+BAIC,U5,Sedan,2021,1.5L
+Hyundai,Elantra,Sedan,2022,2.0L
+Renault,Logan,Sedan,2020,1.6L
+Dodge,Charger,Sedan,2019,5.7L
+Kia,Rio Hatchback,Hatchback,2021,1.6L
+MG,4,Hatchback,2023,EV
+Chirey,Arrizo 8,Sedan,2022,1.6L Turbo
+Renault,Kwid E-Tech,Hatchback,2023,EV
+Kia,Forte Hatchback,Hatchback,2022,2.0L
+Kia,Rio Sedan,Sedan,2021,1.6L
+Nissan,Altima,Sedan,2022,2.5L
+Suzuki,Ciaz,Sedan,2020,1.5L
+Subaru,BRZ,Coupe,2021,2.4L
+Subaru,WRX,Sedan,2022,2.4L Turbo
+MG,7,Sedan,2023,2.0L Turbo
+Dodge,Challenger,Coupe,2019,5.7L
+Nissan,Z,Coupe,2022,3.0L Twin Turbo
+JAC,E J7,Liftback,2023,EV
+Chevrolet,Corvette,Coupe,2021,6.2L
+Chevrolet,Camaro,Coupe,2020,6.2L
+Hyundai,Ioniq 5,Crossover,2023,EV
+Peugeot,301,Sedan,2019,1.6L
+JMC,EV Black,Sedan,2023,EV
+Toyota,GR Supra,Coupe,2022,3.0L Turbo
+Chevrolet,Corvette Convertible,Convertible,2021,6.2L
+BAIC,D20,Hatchback,2020,1.5L
+BAIC,EU5,Sedan,2023,EV
+Chevrolet,Cruze,Sedan,2018,1.4L Turbo
+Toyota,Corolla Hybrid,Sedan,2022,1.8L Hybrid
+Nissan,Kicks,SUV,2021,1.6L
+Renault,Duster,SUV,2022,1.3L Turbo
+Chevrolet,Tracker,SUV,2023,1.2L Turbo
+Volkswagen,T-Cross,SUV,2022,1.0L Turbo
+Mazda,CX-30,SUV,2021,2.5L
+Kia,Seltos,SUV,2022,1.6L Turbo
+Hyundai,Creta,SUV,2023,1.5L
+Toyota,RAV4,SUV,2022,2.5L
+Honda,HRV,SUV,2023,1.5L Turbo
+Nissan,X-Trail,SUV,2022,2.5L
+MG,ZS,SUV,2023,1.5L
+Chirey,Tiggo 7 Pro,SUV,2023,1.5L Turbo
+JAC,Sei 4 Pro,SUV,2022,1.5L Turbo
+Peugeot,2008,SUV,2021,1.2L Turbo
+Dodge,Journey,SUV,2021,1.5L Turbo
+Ford,Territory,SUV,2022,1.8L Turbo
+Toyota,Hilux,Pickup,2022,2.8L Diesel
+RAM,700,Pickup,2021,1.3L
+Volkswagen,Taos,SUV,2023,1.4L Turbo
+Kia,Sportage,SUV,2022,2.0L
+Hyundai,Tucson,SUV,2023,2.5L
+Mazda,CX-5,SUV,2021,2.5L
+Chevrolet,Captiva,SUV,2022,1.5L Turbo
+BYD,Dolphin,Hatchback,2023,EV
+BYD,Seal,Sedan,2023,EV
+Toyota,Yaris Cross,SUV,2022,1.5L Hybrid
