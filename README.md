@@ -29,7 +29,7 @@ Es necesario primero guardar el archivo "inventario.txt" en la misma carpeta que
 De igual manera si se realizan cambios al documento "inventario.txt" es importante resaltar que los valores deben estar seaprados por comas de la siguiente manera:      marca,modelo,tipo,año,motor
 
 
-##Cumplimiento de sub-competencias
+## Cumplimiento de sub-competencias
 
 En este primer avance, implementamos el algoritmo Merge Sort para ordenar los carros. Por tanto tenemos una Complejidad temporal en el mejor caso de O(n log n). en el caso  promedio de  O(n log n) y en el peor  caso O(n log n)
 
