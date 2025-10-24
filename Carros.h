@@ -1,7 +1,10 @@
 // Carros.h
 // Creaod por Oscar Alexander Vilchis SOto A01713207
 // Ultima modificación 26/09/2025
-// Se crea la clase Carros.h en donde se realizan operaciones de busqueda y ordenamiento mediante el método de Merge Sort 
+// Se crea la clase Carros.h en donde se realizan operaciones de busqueda y ordenamiento mediante el metodo de Merge Sort (26/09/2025)
+//  Se modifica la clase carros.h para sustituir ek  uso de vector<Carro> por una lista doblemente ligada implementada manualmente
+//(estructuras Nodo y punteros head/tail)
+// De igual manera Se adaptaron las funciones de ordenamiento y se añadieron nuevas funciones de filtrado (24/10/2025)
 #ifndef CARROS_H
 #define CARROS_H
 
@@ -9,58 +12,132 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <vector>
 #include <limits>
 
-// Estructura que define cómo están acomodados los datos en el archivo de texto inventario.txt
+// Estructura Carro  representa los datos básicos de cada vehículo
 struct Carro {
     std::string marca, modelo, tipo, motor;
     int anio = 0;
 };
 
-// Clase carros.h gestiona una colección de Carro y realiza operaciones sobre ella
-class Carros {
-    std::vector<Carro> v;
 
-    static std::string trim(const std::string& s){ // función que sirve para quitar espacios al inicio y al final
-        size_t i = s.find_first_not_of(" \t\r\n"); // función que permite encontrar el primr caracter
+// Lista doblemente ligada
+// Contiene un objeto Carro y apuntadores al nodo anterior y siguiente
+struct Nodo {
+    Carro data;
+    Nodo* next;
+    Nodo* prev;
+    explicit Nodo(const Carro& c) : data(c), next(nullptr), prev(nullptr) {}
+};
+
+class Carros {
+    Nodo* head = nullptr;
+    Nodo* tail = nullptr;
+    size_t n = 0;
+
+    static std::string trim(const std::string& s){// función que sirve para quitar espacios al inicio y al final
+        const char* ws = " \t\r\n"; // función que permite encontrar el primr caracter
+        size_t i = s.find_first_not_of(ws);
         if (i == std::string::npos) return "";
-        size_t j = s.find_last_not_of(" \t\r\n");
+        size_t j = s.find_last_not_of(ws);
         return s.substr(i, j - i + 1);
     }
 
-    // Se implementa un algoritmo de busqueda de tipo Merge Sort, ordena el vector "a" comparandolo
-    template<class T, class Comp>
-    void mergeSort(std::vector<T>& a, Comp comp){
-        if (a.size() < 2) return;
-        std::vector<T> tmp(a.size());
-        sortRec(a, tmp, 0, (int)a.size()-1, comp);
+    // --- obtener nodo en posición 1..n (para menú seleccionar) ---
+    Nodo* nodoEnPos(size_t idx) const {
+        if (idx < 1 || idx > n) return nullptr;
+        // elige lado más cercano
+        if (idx <= n/2) {
+            Nodo* cur = head;
+            for (size_t i=1; i<idx; ++i) cur = cur->next;
+            return cur;
+        } else {
+            Nodo* cur = tail;
+            for (size_t i=n; i>idx; --i) cur = cur->prev;
+            return cur;
+        }
     }
-// parte recursiva de la busqueda merge sort, se separan los elementos para después ordenar
-// primero el izquierdo y luego el derecho y al finalizar se comparan los elementos de cada mitad
-    template<class T, class Comp>
-    void sortRec(std::vector<T>& a, std::vector<T>& tmp, int l, int r, Comp comp){
-        if (l >= r) return;
-        int m = (l + r) / 2;
-        sortRec(a, tmp, l, m, comp);
-        sortRec(a, tmp, m+1, r, comp);
-        int i=l, j=m+1, k=l;
-        while (i<=m && j<=r) tmp[k++] = comp(a[i],a[j]) ? a[i++] : a[j++];
-        while (i<=m) tmp[k++] = a[i++];
-        while (j<=r) tmp[k++] = a[j++];
-        for (int t=l; t<=r; ++t) a[t] = tmp[t];
+
+    // Merge Sort sobre lista
+    template<class Comp>
+    static void splitMitad(Nodo* src, Nodo*& a, Nodo*& b){
+        Nodo* slow = src;
+        Nodo* fast = src->next;
+        while (fast){
+            fast = fast->next;
+            if (fast){
+                slow = slow->next;
+                fast = fast->next;
+            }
+        }
+        a = src;
+        b = slow->next;
+        slow->next = nullptr;
+        if (b) b->prev = nullptr;
+        if (a) a->prev = nullptr;
+    }
+
+    template<class Comp>
+    static Nodo* mergeOrdenado(Nodo* a, Nodo* b, Comp comp){
+        if (!a) return b;
+        if (!b) return a;
+        // comp(x,y) == true si x debe ir antes que y
+        if (comp(a->data, b->data)){
+            a->next = mergeOrdenado<Comp>(a->next, b, comp);
+            if (a->next) a->next->prev = a;
+            a->prev = nullptr;
+            return a;
+        } else {
+            b->next = mergeOrdenado<Comp>(a, b->next, comp);
+            if (b->next) b->next->prev = b;
+            b->prev = nullptr;
+            return b;
+        }
+    }
+    // Llamada recursiva del Merge Sort sobre listas
+    template<class Comp>
+    static void mergeSortRec(Nodo*& headRef, Comp comp){
+        if (!headRef || !headRef->next) return;
+        Nodo *a=nullptr, *b=nullptr;
+        splitMitad<Comp>(headRef, a, b);
+        mergeSortRec<Comp>(a, comp);
+        mergeSortRec<Comp>(b, comp);
+        headRef = mergeOrdenado<Comp>(a, b, comp);
+    }
+
+    void recomputarTail(){
+        tail = head;
+        if (!tail) return;
+        while (tail->next) tail = tail->next;
     }
 
 public:
-//Metodo para cargar los elementos CSV (valores separados por comas)  abre el archivo en modo lectura y verifica si es legible
-    bool cargarCSV(const std::string& ruta){
-        std::ifstream in(ruta);
+    // Constructor y destructor para  inicializar y liberar memoria
+
+    Carros() = default;
+    ~Carros(){
+        Nodo* cur = head;
+        while (cur){
+            Nodo* nx = cur->next;
+            delete cur;
+            cur = nx;
+        }
+    }
+
+    size_t size() const { return n; }
+    bool empty() const { return n == 0; }
+
+    // Cargar CSV (ruta relativa)
+    bool cargarCSV(const std::string& rutaRelativa){
+        std::ifstream in(rutaRelativa);
         if (!in.is_open()){
-            std::cout << "No es posible leer : " << ruta << "\n";
+            std::cout << "No se pudo abrir el archivo: " << rutaRelativa << "\n";
             return false;
         }
         std::string linea;
-        if (!std::getline(in, linea)) return true; // archivo vacío (o solo encabezado)
+        // lee encabezado (si existe)
+        std::getline(in, linea);
+        size_t cargados = 0;
         while (std::getline(in, linea)){
             if (linea.empty()) continue;
             std::stringstream ss(linea);
@@ -70,96 +147,142 @@ public:
             std::getline(ss, tipo, ',');
             std::getline(ss, anioS, ',');
             std::getline(ss, motor, ',');
+
             Carro c;
             c.marca  = trim(marca);
             c.modelo = trim(modelo);
             c.tipo   = trim(tipo);
             c.motor  = trim(motor);
             c.anio   = anioS.empty()?0:std::stoi(trim(anioS));
-            v.push_back(c);
+            agregar(c);
+            ++cargados;
         }
+        std::cout << "Registros cargados: " << cargados << "\n";
         return true;
     }
-
-    void agregar(const Carro& c){ v.push_back(c); }
-    size_t size() const { return v.size(); }
-
-    void ordenarPorMarcaAZ(){
-        mergeSort(v, [](const Carro& a, const Carro& b){
-            if (a.marca != b.marca) return a.marca < b.marca;
-            return a.modelo < b.modelo;
-        });
-        std::cout << "Ordenado por marca (A-Z).\n";
+    // Agrega nuevo carro  al final (O(1))
+    void agregar(const Carro& c){
+        Nodo* nuevo = new Nodo(c);
+        if (!head){
+            head = tail = nuevo;
+        } else {
+            tail->next = nuevo;
+            nuevo->prev = tail;
+            tail = nuevo;
+        }
+        ++n;
     }
 
-    void ordenarPorAnioAsc(){
-        mergeSort(v, [](const Carro& a, const Carro& b){
-            return a.anio < b.anio;
-        });
-        std::cout << "Ordenado por a~no\n";
-    }
-
+    // Mostrar lista de inventario completo
     void mostrar() const {
-        if (v.empty()){
+        if (empty()){
             std::cout << "(Inventario vacio)\n";
             return;
         }
-        int i=1;
-        for (const auto& c : v){
-            std::cout << i++ << ". " << c.marca << " " << c.modelo
-                      << " | " << c.tipo << " | " << c.anio
-                      << " | " << c.motor << "\n";
+        size_t i=1;
+        for (Nodo* cur=head; cur; cur=cur->next){
+            std::cout << i++ << ") " << cur->data.marca << " " << cur->data.modelo
+                      << " | " << cur->data.tipo
+                      << " | " << cur->data.anio
+                      << " | " << cur->data.motor << "\n";
         }
     }
 
-    void seleccionarYConfirmarAnio() {
-        if (v.empty()){
-            std::cout << "Inventario vacio.\n";
-            return;
+    // Ordenar por marca (A-Z) que utiliza Merge Sort con complejidad O(n log n)
+
+    void ordenarPorMarcaAZ(){
+        mergeSortRec(head, [](const Carro& a, const Carro& b){
+            if (a.marca != b.marca) return a.marca < b.marca;
+            return a.modelo < b.modelo;
+        });
+        recomputarTail();
+        std::cout << "Ordenado por marca (A-Z).\n";
+    }
+
+    // Ordenar por año (ascendente) también con complejidad O(n log n)
+    void ordenarPorAnioAsc(){
+        mergeSortRec(head, [](const Carro& a, const Carro& b){
+            return a.anio < b.anio;
+        });
+        recomputarTail();
+        std::cout << "Ordenado por año (ascendente).\n";
+    }
+
+
+    void seleccionarYConfirmarAnio(){
+        if (empty()){
+            std::cout << "Inventario vacio.\n"; return;
         }
+        std::cout << "Selecciona un numero (1.." << n << "): ";
         size_t idx;
-        std::cout << "Selecciona un numero (1.." << v.size() << "): ";
-        if (!(std::cin >> idx) || idx<1 || idx>v.size()){
+        if (!(std::cin >> idx) || idx<1 || idx>n){
             std::cout << "Indice invalido.\n";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             return;
         }
-        Carro &c = v[idx-1];
-        std::cout << "Acabas d elegir : " << c.marca << " " << c.modelo
-                  << " (" << c.anio << ")\n";
-        std::cout << "¿Ese es el an~o de tu vehiculo? (si/no): ";
+        Nodo* nd = nodoEnPos(idx);
+        std::cout << "Elegiste: " << nd->data.marca << " " << nd->data.modelo
+                  << " (" << nd->data.anio << ")\n";
+        std::cout << "¿Ese es el año de tu vehiculo? (s/n): ";
         char r; std::cin >> r;
         if (r=='n' || r=='N'){
-            std::cout << "Ingresa el an~o de tu vehiculo: ";
+            std::cout << "Ingresa el año real: ";
             int a;
             if (std::cin >> a){
-                c.anio = a;
-                std::cout << "Actualizado: " << c.marca << " " << c.modelo
-                          << " (" << c.anio << ")\n";
+                nd->data.anio = a;
+                std::cout << "Actualizado: " << nd->data.marca << " " << nd->data.modelo
+                          << " (" << nd->data.anio << ")\n";
             } else {
-                std::cout << "error .\n";
+                std::cout << "Entrada invalida.\n";
                 std::cin.clear();
             }
         }
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
-// FUnción que permite buscar al usuario vehículos por marca 
-void buscarPorMarca(const std::string& marcaBuscada) const {
-        bool encontrado = false;
-        for (const auto& c : v){
-            if (c.marca == marcaBuscada){
-                std::cout << c.marca << " " << c.modelo
-                          << " | " << c.tipo
-                          << " | " << c.anio
-                          << " | " << c.motor << "\n";
-                encontrado = true;
+       void agregarManual(){
+        Carro c; std::cin.ignore();
+        std::cout << "Marca: ";   std::getline(std::cin, c.marca);
+        std::cout << "Modelo: ";  std::getline(std::cin, c.modelo);
+        std::cout << "Tipo: ";    std::getline(std::cin, c.tipo);
+        std::cout << "Anio: ";    std::cin >> c.anio; std::cin.ignore();
+        std::cout << "Motor: ";   std::getline(std::cin, c.motor);
+        agregar(c);
+        std::cout << "Agregado.\n";
+    }
+
+    // Filtro por marca que recorre toda la lista e imprime coincidencias exactas
+    void filtrarPorMarca(const std::string& marca) const {
+        bool found=false; size_t i=1;
+        for (Nodo* cur=head; cur; cur=cur->next, ++i){
+            if (cur->data.marca == marca){
+                if (!found) std::cout << "Resultados para marca '"<<marca<<"':\n";
+                std::cout << i << ") " << cur->data.marca << " " << cur->data.modelo
+                          << " | " << cur->data.tipo
+                          << " | " << cur->data.anio
+                          << " | " << cur->data.motor << "\n";
+                found=true;
             }
         }
-        if (!encontrado){
-            std::cout << "No se encontraron autos de marca: " << marcaBuscada << "\n";
+        if (!found) std::cout << "No se encontraron autos de la marca: " << marca << "\n";
+    }
+
+    // Filtro por año que busca autos cuyo año coincida exactamente con el ingresado
+
+    void filtrarPorAnio(int anio) const {
+        bool found=false; size_t i=1;
+        for (Nodo* cur=head; cur; cur=cur->next, ++i){
+            if (cur->data.anio == anio){
+                if (!found) std::cout << "Resultados para año "<<anio<<":\n";
+                std::cout << i << ") " << cur->data.marca << " " << cur->data.modelo
+                          << " | " << cur->data.tipo
+                          << " | " << cur->data.anio
+                          << " | " << cur->data.motor << "\n";
+                found=true;
+            }
         }
+        if (!found) std::cout << "No se encontraron autos del anio: " << anio << "\n";
     }
 };
 
