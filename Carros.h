@@ -43,7 +43,6 @@ class Carros {
         return s.substr(i, j - i + 1);
     }
 
-    // --- obtener nodo en posición 1..n (para menú seleccionar) ---
     Nodo* nodoEnPos(size_t idx) const {
         if (idx < 1 || idx > n) return nullptr;
         // elige lado más cercano
