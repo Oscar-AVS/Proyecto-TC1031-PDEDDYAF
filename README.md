@@ -6,15 +6,15 @@ Repositorio  para los  avances y proyecto integrador de la materia programación
 
 ## Descripción del proyecto
 
-Este proyecto " Gestor de garage" es un sistema que busca ayudar de manera sencilla a los usuarios a organizar y consultar información clave sobre sus vehículos de una manera más práctica y eficiente sin ser demasiado elaborado de usar. La idea surge de una necesidad común que yo pud eidentificar, ya que usualemnte el llevar control de aspectos básicos como verificaciones, pagos de tenencia, mantenimientos y kilometraje se vuelve una tarea que aunque es "sencilla" se peude volver tediosa. Muchas personas olvidan estas fechas importantes o las manejan de manera dispersa, lo que genera complicaciones, retardos e incluso gastos mayores e  inesperados. Este gestor busca centralizar todo en un solo lugar.
+Este proyecto " Gestor de garage" es un sistema que busca ayudar de manera sencilla a los usuarios a organizar y consultar información clave sobre sus vehículos de una manera más práctica y eficiente sin ser demasiado elaborado de usar. La idea surge de una necesidad común que yo pude identificar, ya que usualmente el llevar control de aspectos básicos como verificaciones, pagos de tenencia, mantenimientos y kilometraje se vuelve una tarea que aunque es "sencilla" se puede volver tediosa. Muchas personas olvidan estas fechas importantes o las manejan de manera dispersa, lo que genera complicaciones, retardos e incluso gastos mayores e  inesperados. Este gestor busca centralizar todo en un solo lugar.
 
 
 
-## Descripción del avance1 
+## Descripción del avance 1 
 
-En este primer avance, se  implementa un sistema básico que permita almacenar y organizar la información de los vehículos de manera ordenada. En esta etapa inicial, el programa se centra en trabajar con datos fundamentales de cada auto, como marca, modelo, tipo, año y motor, cargados desde un archivo de texto o ingresados manualmente por el usuario.
+En este primer avance, se  implementa un sistema básico que permite almacenar y organizar la información de los vehículos de manera ordenada. En esta etapa inicial, el programa se centra en trabajar con datos fundamentales de cada auto, como marca, modelo, tipo, año y motor, cargados desde un archivo de texto o ingresados manualmente por el usuario.
 
-La funcionalidad principal es la organización de los datos mediante algoritmos de ordenamiento, específicamente Merge Sort, que garantiza eficiencia con una complejidad de O(n log n). El usuario podrá visualizar la lista de autos ordenada de diferentes formas, como por marca-modelo (alfabético) o por año (ascendente), lo que facilita la consulta. 
+La funcionalidad principal es la organización de los datos mediante algoritmos de ordenamiento, específicamente Mergesort, que garantiza eficiencia con una complejidad de O(n log n). El usuario podrá visualizar la lista de autos ordenada de diferentes formas, como por marca-modelo (alfabético) o por año (ascendente), lo que facilita la consulta. 
 
 El programa actualmente  permite:
 - Mostrar en pantalla el inventario de vehículos.
@@ -30,7 +30,24 @@ En este segundo avance se realizaron distintos cambios significativos, ya que el
 
 De igual manera se adaptaron distintas funciones de ordenamiento, siguiendo la base de Merge sort para trabajar con nodos, aún así mantuvimos una complejidad de O(n log n). Además se añaden dos nuevas funciones de filtrado que permiten al usuario consultar los vehículos según un criterio de marca o año.
 
-Por últimno se cambió el formato de inventario.txt por un inventario.csv para que sea más fácil de leer.
+Por último se cambió el formato de inventario.txt por un inventario.csv para que sea más fácil de leer.
+
+
+## Descripción del avance 3 
+En este último avance se realizaron distintos cambios significativos, para empezar se creó un nuevo header llamado GarageUsuario.h en donde se permite agregar hasta 5 vehículos al garage de cada usuario.  Dentro de estas nuevas funciones se incluye una nueva  estructura VehiculoUsuario con datos base, información real del vehículo que selecciona el usuario (verificación, servicio, kilometraje) y una nueva lista doblemente ligada para el garage personal así cómo una función para guardar el garage en garage_usuario.csv.
+
+De igual manera se implementan nuevas opciones de menú:
+Mostrar garage del usuario
+Guardar garage en archivo
+
+De esta manera, ahora el usuario cuando  agrega un carro manualmente, puede:
+
+Registrarlo en su garage personal
+
+Capturar datos reales como verificación y servicios
+
+Guardarlo 
+
 
 ## Cómo usar el programa 
 
@@ -43,16 +60,18 @@ Compilar y ejecutar el programa.
 El menú mostrará las siguientes opciones:
 
 1) Mostrar inventario
-2) Ordenar por marca (A-Z)
+2) Ordenar por marca (A–Z)
 3) Ordenar por año (ascendente)
 4) Seleccionar año
 5) Agregar carro manualmente
 6) Filtrar por año
 7) Filtrar por marca
-8) Salir
+8) Mostrar vehiculos de mi garage
+9) Guardar mi garage en archivo
+10) Salir
 
-De esta manera, el usuario puede visualizar, filtrar, ordenar o agregar nuevos registros.
 
+De esta manera, el usuario puede visualizar, filtrar, ordenar o agregar nuevos registros e incluso guardarlos en garage_usuario.csv
 
 ## Cumplimiento de sub-competencias
 
@@ -73,7 +92,18 @@ Es un algoritmo estable, conserva el orden relativo de elementos iguales (útil 
 
 ### SICT0301B: Evalúa los componentes
 
-En cuanto al análisis de complejidad del programa, la lista doblemente ligada presenta un acceso por valor de O(n), ya que para localizar un elemento es necesario recorrer los nodos uno por uno. La inserción tiene una complejidad de O(1), pues cada nuevo vehículo se agrega directamente al final de la lista utilizando el apuntador tail. La eliminación de un elemento requiere una búsqueda previa, lo que implica una complejidad de O(n), mientras que las operaciones de recorrido y visualización del inventario mantienen también una complejidad lineal O(n). En cuanto al ordenamiento mediante el algoritmo Merge Sort, este conserva una complejidad temporal de O(n log n) en el mejor, promedio y peor caso.  Finalmente, las funciones de filtrado por marca o año tienen una complejidad O(n), ya que realizan una búsqueda lineal a lo largo de toda la lista para encontrar coincidencias con el criterio ingresado por el usuario.
+En cuanto al análisis de complejidad del programa, la estructura principal utilizada es una  lista doblemente ligada , cuya eficiencia depende de la operación realizada.
+El  acceso por valor  tiene una complejidad de  O(n)  en todos los casos (mejor, promedio y peor), ya que para localizar un elemento es necesario recorrer los nodos secuencialmente desde `head` o desde `tail`.
+La  inserción  de nuevos vehículos al final de la lista mantiene una complejidad  O(1)  en el mejor, promedio y peor caso, porque se utiliza el apuntador `tail`, lo que evita recorrer la estructura.
+La  eliminación  de un elemento (aunque no se usa explícitamente en esta versión del proyecto) presenta una complejidad de  O(n)  en el mejor, promedio y peor caso, ya que primero requiere localizar el nodo mediante un recorrido lineal.
+Las operaciones de  recorrido, impresión y visualización del inventario  son siempre  O(n) , pues deben visitar todos los nodos sin importar el caso.
+El  ordenamiento  mediante el algoritmo  Merge Sort  conserva una complejidad temporal uniforme de  O(n log n)  en el mejor, promedio y peor caso. Esto se debe a su naturaleza recursiva de dividir la lista en mitades y fusionarlas ordenadamente, sin depender del orden inicial de los datos.
+Las funciones de  filtrado por marca y por año  tienen una complejidad de  O(n)  en todos los casos, ya que requieren recorrer cada elemento de la lista para comprobar si coincide con el criterio ingresado por el usuario.
+Finalmente, para el avance 3 se añadió la estructura  GarageUsuario , también basada en una lista doblemente ligada. Dado que su tamaño máximo es de 5 elementos, todas las operaciones tienen complejidad O(1) aunque  por el tamaño máximo equivalen a  O(m)  (donde m ≤ 5).
+En conjunto, la operación más costosa del programa sigue siendo el ordenamiento del inventario mediante Merge Sort, por lo que la complejidad del sistema completo es:  O(n logn) .
+
+
+
 
 ### SICT0303B: Implementa acciones científicas
 
@@ -85,3 +115,5 @@ filtrarPorAnio() muestra los autos del año especificado por el usuario.
 Ambas operaciones recorren la lista doblemente ligada para identificar coincidencias.
 
 De igual manera, se implementa mecanismos de lectura de archivos correctos  ya que el archivo inventario.csv se carga al iniciar el programa usando una ruta relativa, garantizando su funcionamiento en cualquier entorno sin necesidad de rutas absolutas.
+
+
