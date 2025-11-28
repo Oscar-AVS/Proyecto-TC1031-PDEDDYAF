@@ -117,3 +117,47 @@ Ambas operaciones recorren la lista doblemente ligada para identificar coinciden
 De igual manera, se implementa mecanismos de lectura de archivos correctos  ya que el archivo inventario.csv se carga al iniciar el programa usando una ruta relativa, garantizando su funcionamiento en cualquier entorno sin necesidad de rutas absolutas.
 
 
+
+### Evidencia 2: Videos 
+
+Problema 1: Relative Sort Array 1122 
+https://youtu.be/IxPLgakt2Ds 
+
+Código utilizado: 
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
+        // arreglo de frecuencias para valores de 0 a 1000
+        const int MAX_VAL = 1000;
+        int freq[MAX_VAL + 1] = {0};
+
+        // contar cuántas veces aparece cada número en arr1
+        for (int x : arr1) {
+            freq[x]++;
+        }
+
+        vector<int> res;
+
+        // se  agregan los elementos que aparecen en arr2
+        for (int x : arr2) {
+            while (freq[x] > 0) {
+                res.push_back(x);
+                freq[x]--;
+            }
+        }
+
+        // se agregan los eleemnetos que no están en arr 2 en orden ascendente
+        for (int v = 0; v <= MAX_VAL; v++) {
+            while (freq[v] > 0) {
+                res.push_back(v);
+                freq[v]--;
+            }
+        }
+
+        return res;
+    }
+};
