@@ -161,4 +161,76 @@ Código utilizado:
 
         return res;
     }
-};
+    };
+
+Problema 2: Daily Temperatures 739
+https://youtu.be/Nra8hkZM6CA
+
+Código utilizado: 
+
+    #include <vector>
+    #include <stack>
+    using namespace std;
+    
+    class Solution {
+    public:
+        vector<int> dailyTemperatures(vector<int>& temperatures) {
+            int n = temperatures.size();
+            vector<int> answer(n, 0);  // por defecto todos en 0
+            stack<int> st;             
+
+        for (int i = 0; i < n; i++) {
+            // Mientras el día actual sea más caliente que el día en la cima del stack 
+            while (!st.empty() && temperatures[i] > temperatures[st.top()]) {
+                int idx = st.top();    // día anterior pendiente
+                st.pop();
+                answer[idx] = i - idx; // cuántos días esperó
+            }
+            // El día actual queda pendiente
+            st.push(i);
+        }
+
+        return answer;
+    }
+    };
+
+Problema 3: Path Sum 112 
+https://youtu.be/1zTga_1MlBU 
+
+Código utillizado: 
+
+    /**
+     * Definition for a binary tree node.
+     * struct TreeNode {
+     *     int val;
+     *     TreeNode *left;
+     *     TreeNode *right;
+     *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+     *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+     *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+     * };
+     */
+    
+    class Solution {
+    public:
+        bool hasPathSum(TreeNode* root, int targetSum) {
+            // Caso 1 si el árbol vacío entonces  no hay ruta
+            if (root == nullptr) {
+                return false;
+            }
+
+        // Caso 2 si estamos en una hoja
+        if (root->left == nullptr && root->right == nullptr) {
+             return (root->val == targetSum);
+        }
+
+        // Caso 3 si estamos en nodo interno entonces restamos el valor actual
+        int newTarget = targetSum - root->val;
+
+        // Buscamos en subárbol izquierdo o derecho
+        return hasPathSum(root->left, newTarget) ||
+               hasPathSum(root->right, newTarget);
+    }
+    };
+
+
