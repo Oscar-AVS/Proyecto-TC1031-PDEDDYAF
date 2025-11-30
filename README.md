@@ -124,16 +124,17 @@ Problema 1: Relative Sort Array 1122
 https://youtu.be/IxPLgakt2Ds 
 
 Código utilizado: 
-#include <iostream>
-#include <vector>
-using namespace std;
 
-class Solution {
-public:
-    vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
-        // arreglo de frecuencias para valores de 0 a 1000
-        const int MAX_VAL = 1000;
-        int freq[MAX_VAL + 1] = {0};
+    #include <iostream>
+    #include <vector>
+    using namespace std;
+    
+    class Solution {
+    public:
+        vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
+            // arreglo de frecuencias para valores de 0 a 1000
+            const int MAX_VAL = 1000;
+            int freq[MAX_VAL + 1] = {0};
 
         // contar cuántas veces aparece cada número en arr1
         for (int x : arr1) {
