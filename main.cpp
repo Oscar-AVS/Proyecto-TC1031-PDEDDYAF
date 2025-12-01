@@ -1,25 +1,27 @@
 // Main.cpp
 // Creaod por Oscar Alexander Vilchis SOto A01713207
-// Ultima modificación 26/10/2025
+// Ultima modificación 20/11/2025
 // Se crea el main y el menú con 7 opciones disponibles al usuario, desde ver la lista de vehiculos registrados hasta agregar otro vehiculo 26/09/2025
 //  Se modifica el main del código para asegurar que el inventario.csv se pueda abrir mediante una ruta relativa y pueda ser accedida desde otros dispositivos
-//  de igual manera se añade al menu 2 nuevas funciones (filtrar por año y por marca) 
+//  De igual manera se añade al menu 2 nuevas funciones (filtrar por año y por marca) para el segundo avance.
 //  Para el tercer avance se integra un nuevo módulo GarageUsuario que permite registrar hasta 5 vehículos personales del usuario
-//  y guardarlos en un archivo CSV (garage_usuario.csv)
-
+//  y guardarlos en un archivo CSV (garage_usuario.csv).
+//  última versión se añade una opción explícita para agregar un vehículo del inventario al garage del usuario 
 #include <iostream>
 #include <limits>
-#include <cctype>       
+#include <cctype>
 #include "Carros.h"
 #include "GarageUsuario.h"
 
-// Función que  a partir de un Carro del inventario pregunta al usuario datos extra de su vehículo real (verificación y servicio)
-// y construye un VehiculoUsuario que se podrá guardar en el garage de cada usuario
+// Función auxiliar que, a partir de un Carro del inventario,
+// pregunta al usuario datos extra de su vehículo real (verificación y servicio)
+// y construye un VehiculoUsuario que se podrá guardar en el garage personal.
 VehiculoUsuario capturarVehiculoUsuario(const Carro& base){
     VehiculoUsuario v;
     v.base = base;
 
-    // Inferimos si requiere verificación según el tipo de motor, si contiene "EV" o "Hybrid" asumimos que NO requiere verificación.
+    // Inferimos si requiere verificación según el tipo de motor:
+    // si contiene "EV" o "Hybrid" asumimos que NO requiere verificación.
     std::string motorLower = base.motor;
     for (char& c : motorLower){
         c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
@@ -44,6 +46,7 @@ VehiculoUsuario capturarVehiculoUsuario(const Carro& base){
     } else if (rv == 'n' || rv == 'N'){
         v.requiereVerificacion = false;
     } else {
+        // Si el usuario escribe algo raro, usamos el valor inferido por tipo de motor
         v.requiereVerificacion = requiereVerifPorDefecto;
     }
 
@@ -51,7 +54,7 @@ VehiculoUsuario capturarVehiculoUsuario(const Carro& base){
         std::cout << "¿Hace cuantos meses fue tu ultima verificacion?: ";
         std::cin >> v.mesesDesdeVerificacion;
     } else {
-        // Usamos -1  para indicar que no aplica verificación
+        // Usamos -1 como valor especial para indicar que no aplica verificación
         v.mesesDesdeVerificacion = -1;
     }
 
@@ -73,28 +76,30 @@ int main(){
 
     int op = 0;
     do{
-        // MENÚ PRINCIPAL: muestra las acciones disponibles hasta el momento al usuario
+        // MENÚ PRINCIPAL: muestra las acciones disponibles al usuario
         std::cout << "\nGESTOR DE GARAGE\n"
-                  << "1) Mostrar inventario\n"          // Imprime todos los autos del inventario general
-                  << "2) Ordenar por marca (A-Z)\n"     // Usa Merge Sort por marca sobre la lista doblemente ligada
-                  << "3) Ordenar por año (ascendente)\n"// Usa Merge Sort por año sobre la lista doblemente ligada
-                  << "4) Seleccionar año\n"             // Permite ajustar el año a un registro elegido del inventario
-                  << "5) Agregar carro manualmente\n"   // Inserta un nuevo registro capturando datos para el inventario
-                  << "6) Filtrar por año\n"             // Filtra los datos del inventario según un año (búsqueda lineal)
-                  << "7) Filtrar por marca\n"           // Filtra los datos del inventario según una marca (búsqueda lineal)
-                  << "8) Mostrar vehiculos de mi garage\n" // Muestra los autos registrados en el garage personal
-                  << "9) Guardar mi garage en archivo\n"   // Guarda el garage del usuario en garage_usuario.csv
-                  << "10) Salir\n> "                   // Opción para terminar el programa
+                  << "1) Mostrar inventario\n"              // Imprime todos los autos del inventario general
+                  << "2) Ordenar por marca (A-Z)\n"         // Usa Merge Sort por marca sobre la lista doblemente ligada
+                  << "3) Ordenar por año (ascendente)\n"    // Usa Merge Sort por año sobre la lista doblemente ligada
+                  << "4) Seleccionar año\n"                 // Permite ajustar el año a un registro elegido del inventario
+                  << "5) Agregar vehiculo del inventario a mi garage\n" // Toma un auto existente del inventario
+                  << "6) Agregar carro manualmente\n"       // Inserta un nuevo registro capturando datos para el inventario
+                  << "7) Filtrar por año\n"                 // Filtra los datos del inventario según un año (búsqueda lineal)
+                  << "8) Filtrar por marca\n"               // Filtra los datos del inventario según una marca (búsqueda lineal)
+                  << "9) Mostrar vehiculos de mi garage\n"  // Muestra los autos registrados en el garage personal
+                  << "10) Guardar mi garage en archivo\n"   // Guarda el garage del usuario en garage_usuario.csv
+                  << "11) Salir\n> "                        // Opción para terminar el programa
                   << std::flush;
 
         if (!(std::cin >> op)){
+            // Si el usuario mete algo que no es número, limpiamos el flujo
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             continue;
         }
 
         if (op==1){
-            // Muestra todo el inventario de autos
+            // Muestratodo el inventario de autos
             carros.mostrar();
 
         } else if (op==2){
@@ -108,10 +113,29 @@ int main(){
             carros.mostrar();
 
         } else if (op==4){
-        
+            
             carros.seleccionarYConfirmarAnio();
 
         } else if (op==5){
+            // Agregar un vehículo ya existente del inventario al garage del usuario
+            if (garage.lleno()){
+                std::cout << "Tu garage ya esta lleno (maximo 5 vehiculos).\n";
+            } else {
+                 carros.mostrar();
+                std::cout << "Ingresa el numero del vehiculo que quieres agregar a tu garage: ";
+                size_t idx;
+                std::cin >> idx;
+
+                Carro seleccionado;
+                if (carros.obtenerCarroPorIndice(idx, seleccionado)){
+                    VehiculoUsuario v = capturarVehiculoUsuario(seleccionado);
+                    garage.agregar(v);
+                } else {
+                    std::cout << "Indice invalido. No se agrego ningun vehiculo.\n";
+                }
+            }
+
+        } else if (op==6){
             // Captura manualmente un nuevo carro y lo agrega al inventario general
             Carro c;
             std::cin.ignore();  
@@ -130,7 +154,7 @@ int main(){
             carros.agregar(c); // Se inserta al final de la lista doblemente ligada del inventario
             std::cout << "Carro agregado al inventario.\n";
 
-            // Pregunta adicional para saber si el usuario desea  este mismo carro en el garage personal 
+            // Pregunta adicional para registrar este mismo carro en el garage personal del usuario
             char r;
             std::cout << "¿Quieres agregar este vehiculo a tu garage personal? (s/n): ";
             std::cin >> r;
@@ -144,14 +168,14 @@ int main(){
                 }
             }
 
-        } else if (op==6){
+        } else if (op==7){
             // Filtra el inventario por un año específico
             int y;
             std::cout << "Año a filtrar: ";
             std::cin >> y;
             carros.filtrarPorAnio(y);
 
-        } else if (op==7){
+        } else if (op==8){
             // Filtra el inventario por marca específica
             std::string m;
             std::cout << "Marca a filtrar: ";
@@ -159,16 +183,16 @@ int main(){
             std::getline(std::cin, m);
             carros.filtrarPorMarca(m);
 
-        } else if (op==8){
+        } else if (op==9){
             // Muestra todos los vehículos registrados en el garage personal del usuario
             garage.mostrar();
 
-        } else if (op==9){
+        } else if (op==10){
             // Guarda el garage personal en un archivo CSV
-            garage.guardarCSV("garage_usuario.csv");
+             garage.guardarCSV("garage_usuario.csv");
         }
 
-    }while(op!=10); 
-
+    }while(op!=11);
+    
     return 0;
 }
