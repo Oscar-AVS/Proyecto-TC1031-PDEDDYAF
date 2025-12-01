@@ -1,10 +1,13 @@
 // Carros.h
-// Creaod por Oscar Alexander Vilchis SOto A01713207
-// Ultima modificación 26/09/2025
+// Creado por Oscar Alexander Vilchis Soto A01713207
+// Ultima modificación 16/11/2025
 // Se crea la clase Carros.h en donde se realizan operaciones de busqueda y ordenamiento mediante el metodo de Merge Sort (26/09/2025)
 //  Se modifica la clase carros.h para sustituir ek  uso de vector<Carro> por una lista doblemente ligada implementada manualmente
 //(estructuras Nodo y punteros head/tail)
 // De igual manera Se adaptaron las funciones de ordenamiento y se añadieron nuevas funciones de filtrado (24/10/2025)
+//  Ultima versión se  añade la función obtenerCarroPorIndice para poder tomar un vehículo del inventario
+//  y usarlo en otras partes del programa como para agregarlo al garage del usuario 
+
 #ifndef CARROS_H
 #define CARROS_H
 
@@ -159,6 +162,7 @@ public:
         std::cout << "Registros cargados: " << cargados << "\n";
         return true;
     }
+
     // Agrega nuevo carro  al final (O(1))
     void agregar(const Carro& c){
         Nodo* nuevo = new Nodo(c);
@@ -188,7 +192,6 @@ public:
     }
 
     // Ordenar por marca (A-Z) que utiliza Merge Sort con complejidad O(n log n)
-
     void ordenarPorMarcaAZ(){
         mergeSortRec(head, [](const Carro& a, const Carro& b){
             if (a.marca != b.marca) return a.marca < b.marca;
@@ -206,7 +209,6 @@ public:
         recomputarTail();
         std::cout << "Ordenado por año (ascendente).\n";
     }
-
 
     void seleccionarYConfirmarAnio(){
         if (empty()){
@@ -240,7 +242,7 @@ public:
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
-       void agregarManual(){
+    void agregarManual(){
         Carro c; std::cin.ignore();
         std::cout << "Marca: ";   std::getline(std::cin, c.marca);
         std::cout << "Modelo: ";  std::getline(std::cin, c.modelo);
@@ -268,7 +270,6 @@ public:
     }
 
     // Filtro por año que busca autos cuyo año coincida exactamente con el ingresado
-
     void filtrarPorAnio(int anio) const {
         bool found=false; size_t i=1;
         for (Nodo* cur=head; cur; cur=cur->next, ++i){
@@ -282,6 +283,16 @@ public:
             }
         }
         if (!found) std::cout << "No se encontraron autos del anio: " << anio << "\n";
+    }
+
+    // Funcion que permite btener un carro del inventario por índice (1..n)
+     bool obtenerCarroPorIndice(size_t idx, Carro& out) const {
+        Nodo* nd = nodoEnPos(idx);
+        if (!nd) {
+            return false;
+        }
+        out = nd->data;
+        return true;
     }
 };
 
