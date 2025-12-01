@@ -1,10 +1,7 @@
 # Proyecto TC1031 – Programación de Estructuras de Datos y Algoritmos Fundamentales
-#  Proyecto Gestor de Garage  
+## Proyecto Gestor de Garage  
 
-Repositorio  para los  avances y proyecto integrador de la materia programación de estructuras de datos y algoritmos fundamentales.
-
-
-## Descripción del proyecto
+### Descripción del proyecto
 
 Este proyecto " Gestor de garage" es un sistema que busca ayudar de manera sencilla a los usuarios a organizar y consultar información clave sobre sus vehículos de una manera más práctica y eficiente sin ser demasiado elaborado de usar. La idea surge de una necesidad común que yo pude identificar, ya que usualmente el llevar control de aspectos básicos como verificaciones, pagos de tenencia, mantenimientos y kilometraje se vuelve una tarea que aunque es "sencilla" se puede volver tediosa. Muchas personas olvidan estas fechas importantes o las manejan de manera dispersa, lo que genera complicaciones, retardos e incluso gastos mayores e  inesperados. Este gestor busca centralizar todo en un solo lugar.
 
@@ -60,15 +57,16 @@ Compilar y ejecutar el programa.
 El menú mostrará las siguientes opciones:
 
 1) Mostrar inventario
-2) Ordenar por marca (A–Z)
-3) Ordenar por año (ascendente)
+2) Ordenar por marca (A-Z)       
+3) Ordenar por año (ascendente)     
 4) Seleccionar año
-5) Agregar carro manualmente
-6) Filtrar por año
-7) Filtrar por marca
-8) Mostrar vehiculos de mi garage
-9) Guardar mi garage en archivo
-10) Salir
+5) Agregar vehiculo del inventario a mi garage
+6) Agregar carro manualmente        
+7) Filtrar por año                 
+8) Filtrar por marca     
+9) Mostrar vehiculos de mi garage   
+10) Guardar mi garage en archivo
+11) Salir
 
 
 De esta manera, el usuario puede visualizar, filtrar, ordenar o agregar nuevos registros e incluso guardarlos en garage_usuario.csv
@@ -92,16 +90,17 @@ Es un algoritmo estable, conserva el orden relativo de elementos iguales (útil 
 
 ### SICT0301B: Evalúa los componentes
 
-En cuanto al análisis de complejidad del programa, la estructura principal utilizada es una  lista doblemente ligada , cuya eficiencia depende de la operación realizada.
-El  acceso por valor  tiene una complejidad de  O(n)  en todos los casos (mejor, promedio y peor), ya que para localizar un elemento es necesario recorrer los nodos secuencialmente desde `head` o desde `tail`.
-La  inserción  de nuevos vehículos al final de la lista mantiene una complejidad  O(1)  en el mejor, promedio y peor caso, porque se utiliza el apuntador `tail`, lo que evita recorrer la estructura.
-La  eliminación  de un elemento (aunque no se usa explícitamente en esta versión del proyecto) presenta una complejidad de  O(n)  en el mejor, promedio y peor caso, ya que primero requiere localizar el nodo mediante un recorrido lineal.
-Las operaciones de  recorrido, impresión y visualización del inventario  son siempre  O(n) , pues deben visitar todos los nodos sin importar el caso.
-El  ordenamiento  mediante el algoritmo  Merge Sort  conserva una complejidad temporal uniforme de  O(n log n)  en el mejor, promedio y peor caso. Esto se debe a su naturaleza recursiva de dividir la lista en mitades y fusionarlas ordenadamente, sin depender del orden inicial de los datos.
-Las funciones de  filtrado por marca y por año  tienen una complejidad de  O(n)  en todos los casos, ya que requieren recorrer cada elemento de la lista para comprobar si coincide con el criterio ingresado por el usuario.
-Finalmente, para el avance 3 se añadió la estructura  GarageUsuario , también basada en una lista doblemente ligada. Dado que su tamaño máximo es de 5 elementos, todas las operaciones tienen complejidad O(1) aunque  por el tamaño máximo equivalen a  O(m)  (donde m ≤ 5).
-En conjunto, la operación más costosa del programa sigue siendo el ordenamiento del inventario mediante Merge Sort, por lo que la complejidad del sistema completo es:  O(n logn) .
-
+En cuanto al análisis de complejidad del programa, la estructura principal utilizada es una lista doblemente ligada, cuya eficiencia depende de la operación realizada. El acceso por valor
+tiene una complejidad O(1) en el mejor caso (cuando el elemento se encuentra inmediatamente en head o en tail), y O(n) tanto en el caso promedio como en el peor caso, ya que para localizar 
+un elemento es necesario recorrer los nodos secuencialmente desde uno de los extremos. La inserción de nuevos vehículos al final de la lista mantiene una complejidad O(1) en el mejor, 
+promedio y peor caso, porque se utiliza el apuntador tail, lo que evita recorrer la estructura. La eliminación de un elemento (aunque no se usa explícitamente en esta versión del proyecto) 
+presenta una complejidad O(1) en el mejor caso (cuando el nodo a eliminar es head o tail) y O(n) en el caso promedio y peor caso, ya que primero requiere localizar el nodo mediante un 
+recorrido lineal. Las operaciones de recorrido, impresión y visualización del inventario son siempre O(n), pues deben visitar todos los nodos sin importar el caso. El ordenamiento mediante 
+el algoritmo Merge Sort conserva una complejidad temporal uniforme de O(n log n) en el mejor, promedio y peor caso. Esto se debe a su naturaleza recursiva de dividir la lista en mitades y 
+fusionarlas ordenadamente, sin depender del orden inicial de los datos. Las funciones de filtrado por marca y por año tienen una complejidad de O(n) en todos los casos, ya que requieren 
+recorrer cada elemento de la lista para comprobar si coincide con el criterio ingresado por el usuario. Finalmente, para el avance 3 se añadió la estructura GarageUsuario, también basada 
+en una lista doblemente ligada. Dado que su tamaño máximo es de 5 elementos, todas las operaciones tienen complejidad O(1), aunque teóricamente equivalen a O(m), donde m ≤ 5. En conjunto, 
+la operación más costosa del programa sigue siendo el ordenamiento del inventario mediante Merge Sort, por lo que la complejidad del sistema completo es O(n log n).
 
 
 
@@ -115,6 +114,8 @@ filtrarPorAnio() muestra los autos del año especificado por el usuario.
 Ambas operaciones recorren la lista doblemente ligada para identificar coincidencias.
 
 De igual manera, se implementa mecanismos de lectura de archivos correctos  ya que el archivo inventario.csv se carga al iniciar el programa usando una ruta relativa, garantizando su funcionamiento en cualquier entorno sin necesidad de rutas absolutas.
+
+Además  el programa implementa  mecanismos de escritura de archivos para guardar la información de las estructuras de datos, el ejemplo está en el  `GarageUsuario` que  incluye la función `guardarCSV("garage_usuario.csv")`, que recorre la lista doblemente ligada de vehículos que ingresa el usuario y genera un archivo CSV concada vehículo (marca, modelo, tipo, año, motor y datos de verificación y servicio). Esta función se puede usar  desde el menú principal en la opción "Guardar mi garage " lo que permite que el usuario guarde sus datos a medida que va usando el programa.
 
 
 
