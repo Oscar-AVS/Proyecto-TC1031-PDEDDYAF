@@ -90,16 +90,17 @@ Es un algoritmo estable, conserva el orden relativo de elementos iguales (útil 
 
 ### SICT0301B: Evalúa los componentes
 
-En cuanto al análisis de complejidad del programa, la estructura principal utilizada es una lista doblemente ligada, cuya eficiencia depende de la operación realizada. El acceso por valor tiene una complejidad O(1) en el mejor caso (cuando el elemento se encuentra inmediatamente en head o en tail), y O(n) tanto en el caso promedio como en el peor caso, ya que para localiza
-un elemento es necesario recorrer los nodos secuencialmente desde uno de los extremos. La inserción de nuevos vehículos al final de la lista mantiene una complejidad O(1) en el mejor, 
-promedio y peor caso, porque se utiliza el apuntador tail, lo que evita recorrer la estructura. La eliminación de un elemento (aunque no se usa explícitamente en esta versión del proyecto) 
-presenta una complejidad O(1) en el mejor caso (cuando el nodo a eliminar es head o tail) y O(n) en el caso promedio y peor caso, ya que primero requiere localizar el nodo mediante un 
-recorrido lineal. Las operaciones de recorrido, impresión y visualización del inventario son siempre O(n), pues deben visitar todos los nodos sin importar el caso. El ordenamiento mediante 
-el algoritmo Merge Sort conserva una complejidad temporal uniforme de O(n log n) en el mejor, promedio y peor caso. Esto se debe a su naturaleza recursiva de dividir la lista en mitades y 
-fusionarlas ordenadamente, sin depender del orden inicial de los datos. Las funciones de filtrado por marca y por año tienen una complejidad de O(n) en todos los casos, ya que requieren 
-recorrer cada elemento de la lista para comprobar si coincide con el criterio ingresado por el usuario. Finalmente, para el avance 3 se añadió la estructura GarageUsuario, también basada 
-en una lista doblemente ligada. Dado que su tamaño máximo es de 5 elementos, todas las operaciones tienen complejidad O(1), aunque teóricamente equivalen a O(m), donde m ≤ 5. En conjunto, 
-la operación más costosa del programa sigue siendo el ordenamiento del inventario mediante Merge Sort, por lo que la complejidad del sistema completo es O(n log n).
+En cuanto al análisis de complejidad del programa, la estructura principal utilizada es una lista doblemente ligada, cuya eficiencia depende de la operación que se realice. El acceso por valor tiene una complejidad O(1)  en el mejor caso que es cuando el elemento se encuntra inmediatamente en head o en tail, y O (n) tanto en el caso promedio como el peor caso ya que para localizar un elemento es necesario recorrer los nodos secuencialmente desde uno de los extremos. 
+
+La inserción de nuevos vehículos al final de la lista mantiene una complejidad O(1) en el mejor, promedio y peor caso, porque se utiliza el apuntador tail, lo que evita recorrer la estructura. La eliminación de algún elemento presenta una complejidad de O(1) en el mejor caso (cuando el nodo a eliminar es head o tail) y O(n) en el caso promedio y peor, ya que primero requiere localizar el nodo mediante un recorrido lineal.
+
+Las operaciones de recorrido, impresión y visualización del inventario son siempre O(n), pues deben visitar todos los nodos sin importar el caso. 
+
+ El ordenamiento mediante el algoritmo Merge Sort conserva una complejidad temporal uniforme de O(n log n) en el mejor, promedio y peor caso. Esto se debe a su naturaleza recursiva de dividir la lista en mitades y fusionarlas ordenadamente, sin depender del orden inicial de los datos.
+
+Las funciones de filtrado por marca y por año tienen una complejidad de O(n) en todos los casos, ya que requieren recorrer cada elemento de la lista para comprobar si coincide con el criterio ingresado por el usuario.
+
+Finalmente, para el avance 3 se añadió la estructura GarageUsuario, también basada en una lista doblemente ligada. Dado que su tamaño máximo es de 5 elementos, todas las operaciones tienen complejidad O(1), aunque teóricamente equivalen a O(m), donde m ≤ 5. En conjunto, la operación más costosa del programa sigue siendo el ordenamiento del inventario mediante Merge Sort, por lo que la complejidad del sistema completo es O(n log n).
 
 
 
